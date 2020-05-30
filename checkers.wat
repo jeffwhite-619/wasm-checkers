@@ -1,5 +1,6 @@
 (module
     (memory $mem 1)
+    (global $currentTurn (mut i32) (i32.const 0))
 
     ;; checkerboard state bit flags:
     ;; 0 = Empty square
@@ -65,5 +66,81 @@
     ;; unset the bit flag for a crowned piece
     (func $dethrone (param $piece i32) (result i32)
         (i32.and (local.get $piece) (i32.const 3))
+    )
+
+    ;; place a piece on a square
+    (func $setPiece (param $x i32) (param $y i32) (param $piece i32)
+        (i32.store 
+            (call $offsetForPosition
+                (local.get $x)
+                (local.get $y)
+            )
+            (local.get $piece)
+        )
+    )
+
+    ;; check state of a square, catch out of bounds errors
+    (func $getPiece (param $x i32) (param $y i32) (result i32)
+        (if (result i32)
+            (block (result i32)
+                (i32.and
+                    (call $inRange
+                        (i32.const 0)
+                        (i32.const 7)
+                        (local.get $x)
+                    )
+                    (call $inRange
+                        (i32.const 0)
+                        (i32.const 7)
+                        (local.get $y)
+                    )
+                )
+            )
+        )
+        (then
+            (i32.load
+                (call $offsetForPosition
+                    (local.get $x)
+                    (local.get $y)
+                )
+            )
+        )
+        (else
+            (unreachable)
+        )
+    )
+
+    ;; check row/square boundary
+    (func $inRange (param $low i32) (param $high i32) (param $value i32) (result i32)
+        (i32.and
+            (i32.ge_s (local.get $value) (local.get $low))
+            (i32.le_s (local.get $value) (local.get $high))
+        )
+    )
+
+    ;; get the current turn owner
+    (func $getTurnOwner (result i32)
+        (global.get $currentTurn)
+    )
+
+    ;; change current turn owner
+    (func $toggleTurnOwner
+        (if (i32.eq (call $setTurnOwner) (i32.const 1))
+            (then (call $setTurnOwner (i32.const 2)))
+            (else (call $setTurnOwner (i32.const 1)))
+        )
+    )
+
+    ;; set the current turn owner
+    (func $setTurnOwner (param $piece i32)
+        (global.set $currentTurn (local.get $piece))
+    )
+
+    ;; check who the current turn owner is
+    (func $isPlayersTurn (param $player i32) (result i32)
+        (i32.ge_s
+            (i32.and (local.get $player) (call $getTurnOwner))
+            (i32.const 0)
+        )
     )
 )
