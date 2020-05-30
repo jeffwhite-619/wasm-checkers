@@ -66,4 +66,11 @@
     (func $dethrone (param $piece i32) (result i32)
         (i32.and (local.get $piece) (i32.const 3))
     )
+
+    (export "offsetForPosition" (func $offsetForPosition))
+    (export "isCrowned" (func $isCrowned))
+    (export "isRed" (func $isRed))
+    (export "isBlack" (func $isBlack))
+    (export "kingMe" (func $kingMe))
+    (export "dethrone" (func $dethrone))
 )
