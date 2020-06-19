@@ -173,8 +173,7 @@
     (func $coronation (param $x i32) (param $y i32)
         (local $piece i32)
         (local.set $piece (call $getPiece (local.get $x) (local.get $y)))
-        (call $setPiece (local.get $x) (local.get $y)
-            (call $kingMe (local.get $piece)))
+        (call $setPiece (local.get $x) (local.get $y) (call $kingMe (local.get $piece)))
 
         ;; emit event
         (call $notify_piececrowned (local.get $x) (local.get $y))
@@ -288,22 +287,22 @@
         ;; row 4 and 5 are empty
 
         ;; row 6, black pieces
-        (call $setPiece (i32.const 1) (i32.const 5) (i32.const 1))
-        (call $setPiece (i32.const 3) (i32.const 5) (i32.const 1))
-        (call $setPiece (i32.const 5) (i32.const 5) (i32.const 1))
-        (call $setPiece (i32.const 7) (i32.const 5) (i32.const 1))
+        (call $setPiece (i32.const 0) (i32.const 5) (i32.const 1))
+        (call $setPiece (i32.const 2) (i32.const 5) (i32.const 1))
+        (call $setPiece (i32.const 4) (i32.const 5) (i32.const 1))
+        (call $setPiece (i32.const 6) (i32.const 5) (i32.const 1))
 
         ;; row 7, black pieces
-        (call $setPiece (i32.const 0) (i32.const 6) (i32.const 1))
-        (call $setPiece (i32.const 2) (i32.const 6) (i32.const 1))
-        (call $setPiece (i32.const 4) (i32.const 6) (i32.const 1))
-        (call $setPiece (i32.const 6) (i32.const 6) (i32.const 1))
+        (call $setPiece (i32.const 1) (i32.const 6) (i32.const 1))
+        (call $setPiece (i32.const 3) (i32.const 6) (i32.const 1))
+        (call $setPiece (i32.const 5) (i32.const 6) (i32.const 1))
+        (call $setPiece (i32.const 7) (i32.const 6) (i32.const 1))
 
         ;; row 8, black pieces
-        (call $setPiece (i32.const 1) (i32.const 7) (i32.const 1))
-        (call $setPiece (i32.const 3) (i32.const 7) (i32.const 1))
-        (call $setPiece (i32.const 5) (i32.const 7) (i32.const 1))
-        (call $setPiece (i32.const 7) (i32.const 7) (i32.const 1))
+        (call $setPiece (i32.const 0) (i32.const 7) (i32.const 1))
+        (call $setPiece (i32.const 2) (i32.const 7) (i32.const 1))
+        (call $setPiece (i32.const 4) (i32.const 7) (i32.const 1))
+        (call $setPiece (i32.const 6) (i32.const 7) (i32.const 1))
 
         ;; set first move to black
         (call $setTurnOwner (i32.const 1))
